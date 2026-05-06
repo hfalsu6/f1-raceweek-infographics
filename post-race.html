@@ -7,32 +7,559 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
 <link rel="stylesheet" href="./assets/css/styles.css" />
-<style>
-  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 40px; box-sizing: border-box; }
-  .card {
-    max-width: 600px; padding: 60px 48px;
-    background: var(--bg-tint); border-left: 3px solid var(--accent);
-    border-radius: 2px; text-align: left;
-  }
-  .label { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.28em; font-size: 14px; color: var(--accent); }
-  .title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 350; font-size: 48px; line-height: 1.1; margin-top: 20px; color: var(--cream); }
-  .body { font-family: 'Inter Tight', sans-serif; font-size: 16px; line-height: 1.6; margin-top: 24px; color: var(--cream-dim); }
-  .meta { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.22em; font-size: 11px; color: var(--cream-dim); margin-top: 32px; }
-  a { color: var(--cream); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
-</style>
 </head>
 <body>
-<div class="card">
-  <div class="label">Post-race · Coming Soon</div>
-  <div class="title">The chequered flag drops here.</div>
-  <div class="body">
-    Once a race finishes, this page will carry the post-race infographic:
-    podium, penalties, updated standings, and the editorial read on what
-    just happened. Template still in design — the pre-race version is
-    <a href="./pre-race.html">live now</a>.
+<div id="root">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div class="label">Loading post-race</div>
   </div>
-  <div class="meta">F1 Race Week</div>
 </div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
+
+/* ────────── helpers ────────── */
+const pad2 = (n) => String(n).padStart(2, "0");
+const Hairline = ({ className = "" }) => <div className={`hairline ${className}`} />;
+
+const SectionLabel = ({ children, accent }) => (
+  <div className="mono uppercase tracking-[0.28em] text-[14px]" style={{ color: accent }}>
+    {children}
+  </div>
+);
+
+/* Chequered band — 32 cells × 4 rows, low-contrast */
+const ChequeredBand = ({ cols = 32, rows = 3, cell = 14, color = "rgba(242,238,230,0.18)" }) => {
+  const cells = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const on = (r + c) % 2 === 0;
+      cells.push(
+        <div key={`${r}-${c}`} style={{
+          width: cell, height: cell,
+          background: on ? color : 'transparent',
+        }}/>
+      );
+    }
+  }
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(${cols}, ${cell}px)`,
+      gridAutoRows: `${cell}px`,
+      width: cols * cell,
+    }}>
+      {cells}
+    </div>
+  );
+};
+
+/* Tiny 4x4 chequered glyph for inline decoration */
+const ChequeredGlyph = ({ size = 16, color = "currentColor" }) => {
+  const cell = size / 4;
+  const cells = [];
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      const on = (r + c) % 2 === 0;
+      cells.push(
+        <rect key={`${r}-${c}`} x={c*cell} y={r*cell} width={cell} height={cell} fill={on ? color : 'none'}/>
+      );
+    }
+  }
+  return <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>{cells}</svg>;
+};
+
+/* Delta badge */
+const DeltaBadge = ({ delta, accent }) => {
+  if (delta === 0 || delta == null) {
+    return <span className="mono text-[13px]" style={{ color: 'var(--cream-faint)', letterSpacing: '0.05em' }}>—</span>;
+  }
+  if (delta > 0) {
+    return (
+      <span className="mono num-tab text-[13px] flex items-center gap-1" style={{ color: accent, letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: 11, lineHeight: 1 }}>▲</span>{delta}
+      </span>
+    );
+  }
+  return (
+    <span className="mono num-tab text-[13px] flex items-center gap-1" style={{ color: 'var(--cream-dim)', letterSpacing: '0.05em' }}>
+      <span style={{ fontSize: 11, lineHeight: 1 }}>▼</span>{Math.abs(delta)}
+    </span>
+  );
+};
+
+/* ────────── 1. Cover ────────── */
+const Cover = ({ data }) => {
+  const accent = data.race.accent_color;
+  const r = data.round;
+  return (
+    <div className="relative px-[72px] pt-[80px] pb-[56px]">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <ChequeredGlyph size={14} color={accent}/>
+          <span className="mono uppercase tracking-[0.3em] text-[14px]" style={{ color: accent }}>
+            Round {pad2(r.number)} <span style={{ color: 'var(--cream-dim)' }}>/ {r.total}</span>
+          </span>
+          <span className="mono uppercase tracking-[0.3em] text-[12px] ml-3" style={{ color: 'var(--cream-dim)' }}>
+            · Post-Race
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="mono uppercase tracking-[0.3em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>F1 · {data.generated_at.slice(0,4)}</span>
+          <span className="mono uppercase tracking-[0.3em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Issue {pad2(r.number)}</span>
+        </div>
+      </div>
+
+      <Hairline className="mt-5" />
+
+      <div className="mt-[80px]">
+        <div className="mono uppercase tracking-[0.32em] text-[15px]" style={{ color: 'var(--cream-dim)' }}>
+          {data.race.country}
+        </div>
+        <h1 className="display-tight mt-[18px] leading-[0.84]" style={{ fontWeight: 350, fontSize: 152 }}>
+          {data.race.city}
+        </h1>
+        <h2 className="display mt-[6px] leading-[0.95]" style={{ fontWeight: 300, fontSize: 64, color: 'var(--cream-dim)', letterSpacing: '-0.02em' }}>
+          Grand Prix
+        </h2>
+      </div>
+
+      <div className="mt-10 -mx-[72px] flex justify-center" style={{ overflow: 'hidden' }}>
+        <ChequeredBand cols={48} rows={2} cell={14} color="rgba(242,238,230,0.10)"/>
+      </div>
+
+      <div className="mt-[56px]">
+        <div className="mono uppercase tracking-[0.28em] text-[13px]" style={{ color: accent }}>The Result</div>
+        <div className="display italic mt-3 leading-[0.95]"
+          style={{
+            fontWeight: 350, fontSize: 110, color: accent, letterSpacing: '-0.02em',
+            fontVariationSettings: '"opsz" 144, "SOFT" 80, "WONK" 1'
+          }}>
+          {data.race.headline_result}
+        </div>
+        <div className="sans mt-5 text-[24px] leading-[1.35]" style={{ color: 'var(--cream)', maxWidth: '85%', fontWeight: 400 }}>
+          {data.race.subhead}
+        </div>
+      </div>
+
+      <div className="mt-[48px] flex items-end justify-between">
+        <div>
+          <div className="mono uppercase tracking-[0.28em] text-[13px]" style={{ color: 'var(--cream-dim)' }}>Race day</div>
+          <div className="sans mt-2 text-[26px]" style={{ fontWeight: 500 }}>{data.race.date_end}</div>
+        </div>
+        <div className="text-right">
+          <div className="mono uppercase tracking-[0.28em] text-[13px]" style={{ color: 'var(--cream-dim)' }}>Winning team</div>
+          <div className="sans mt-2 text-[26px]" style={{ fontWeight: 500, color: accent }}>{data.race.winning_team}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ────────── 2. Podium ────────── */
+const PodiumRow = ({ entry, accent, isWinner }) => {
+  const tint = isWinner ? 'var(--bg-tint)' : 'transparent';
+  const numColor = isWinner ? accent : 'var(--cream)';
+  const numSize = isWinner ? 168 : 112;
+  const nameSize = isWinner ? 44 : 34;
+  return (
+    <div className="grid items-center"
+         style={{
+           gridTemplateColumns: '180px 8px 1fr auto',
+           gap: 28,
+           background: tint,
+           padding: isWinner ? '32px 28px' : '20px 28px',
+           borderRadius: 2,
+         }}>
+      <div className="display num-tab leading-none text-right" style={{ fontSize: numSize, fontWeight: 350, color: numColor, letterSpacing: '-0.04em' }}>
+        {pad2(entry.pos)}
+      </div>
+      <div style={{ width: 6, height: isWinner ? 110 : 70, background: entry.team_color, justifySelf: 'center' }}/>
+      <div>
+        <div className="sans" style={{ fontSize: nameSize, fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.01em' }}>
+          {entry.driver}
+        </div>
+        <div className="mono uppercase tracking-[0.24em] mt-2" style={{ fontSize: isWinner ? 14 : 12, color: 'var(--cream-dim)' }}>
+          {entry.team}
+          {entry.fastest_lap && (
+            <span className="ml-3 px-2 py-[2px]" style={{ border: `1px solid ${accent}`, color: accent, letterSpacing: '0.18em' }}>
+              FL +1
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="text-right">
+        <div className="display num-tab" style={{ fontSize: isWinner ? 36 : 28, fontWeight: 400, color: isWinner ? accent : 'var(--cream)', letterSpacing: '-0.01em' }}>
+          {entry.time || entry.gap}
+        </div>
+        <div className="mono uppercase tracking-[0.24em] mt-1" style={{ fontSize: 11, color: 'var(--cream-dim)' }}>
+          {isWinner ? 'Race time' : 'Gap'}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PodiumBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  const winner = data.podium.find(p => p.pos === 1);
+  const others = data.podium.filter(p => p.pos !== 1);
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <div className="flex items-baseline justify-between">
+        <SectionLabel accent={accent}>Podium</SectionLabel>
+        <span className="mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>Top 3</span>
+      </div>
+      <div className="mt-6 flex flex-col gap-3">
+        <PodiumRow entry={winner} accent={accent} isWinner={true}/>
+        {others.map(e => (<PodiumRow key={e.pos} entry={e} accent={accent} isWinner={false}/>))}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── 3. Result 4–10 ────────── */
+const ResultRow = ({ entry }) => (
+  <div className="flex items-center py-[14px]">
+    <div className="display num-tab text-[28px] w-[54px]" style={{ fontWeight: 350 }}>{pad2(entry.pos)}</div>
+    <div style={{ width: 3, height: 26, background: entry.team_color, marginRight: 16 }}/>
+    <div className="sans text-[19px]" style={{ fontWeight: 500 }}>{entry.driver}</div>
+    <div className="mono uppercase tracking-[0.18em] text-[11px] ml-4" style={{ color: 'var(--cream-dim)' }}>{entry.team}</div>
+    <div className="ml-auto display num-tab text-[22px]" style={{ fontWeight: 400 }}>
+      {entry.points}
+      <span className="mono ml-1 text-[11px]" style={{ color: 'var(--cream-dim)' }}>PTS</span>
+    </div>
+  </div>
+);
+
+const ResultBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <div className="flex items-baseline justify-between">
+        <SectionLabel accent={accent}>Result · 04–10</SectionLabel>
+        <span className="mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>Points scored</span>
+      </div>
+      <Hairline className="mt-4"/>
+      {data.results_4_10.map((e, i) => (
+        <React.Fragment key={i}>
+          <ResultRow entry={e}/>
+          {i < data.results_4_10.length - 1 && <Hairline/>}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+};
+
+/* ────────── 4. DNFs ────────── */
+const DNFBlock = ({ data }) => {
+  if (!data.dnfs || data.dnfs.length === 0) return null;
+  return (
+    <div className="relative px-[72px] py-[40px]">
+      <SectionLabel accent={'var(--cream-dim)'}>Not Classified</SectionLabel>
+      <div className={`mt-4 grid gap-x-12 gap-y-3 ${data.dnfs.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {data.dnfs.map((d, i) => (
+          <div key={i} className="flex items-baseline gap-3">
+            <span className="sans text-[18px]" style={{ fontWeight: 500 }}>{d.driver}</span>
+            <span className="mono uppercase tracking-[0.18em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>{d.team}</span>
+            <span className="display italic text-[18px] ml-auto" style={{ color: 'var(--cream-dim)', fontWeight: 350 }}>
+              {d.reason}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── 5. Standings ────────── */
+const StandingsRow = ({ pos, delta, name, color, points, gap, accent }) => (
+  <div className="flex items-center py-[14px]">
+    <div className="display num-tab text-[30px] w-[52px]" style={{ fontWeight: 350 }}>{pad2(pos)}</div>
+    <div className="w-[42px]"><DeltaBadge delta={delta} accent={accent}/></div>
+    <div style={{ width: 3, height: 28, background: color, marginRight: 16 }}/>
+    <div className="sans text-[19px]" style={{ fontWeight: 500 }}>{name}</div>
+    <div className="ml-auto flex items-baseline gap-3 num-tab">
+      <span className="display text-[24px]" style={{ fontWeight: 400 }}>{points}</span>
+      <span className="mono text-[12px]" style={{ color: 'var(--cream-dim)' }}>
+        {gap === 0 ? '—' : `(−${gap})`}
+      </span>
+    </div>
+  </div>
+);
+
+const StandingsBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <div className="flex items-baseline justify-between">
+        <SectionLabel accent={accent}>Standings · After Round {pad2(data.round.number)}</SectionLabel>
+        <span className="mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>Δ vs. previous</span>
+      </div>
+      <div className="mt-6 grid grid-cols-2 gap-12">
+        <div>
+          <div className="mono uppercase tracking-[0.24em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Drivers</div>
+          <Hairline className="mt-3"/>
+          {data.drivers_standings.map((d, i) => (
+            <React.Fragment key={i}>
+              <StandingsRow pos={d.pos} delta={d.delta} name={d.name} color={d.team_color} points={d.points} gap={d.gap} accent={accent}/>
+              {i < data.drivers_standings.length - 1 && <Hairline/>}
+            </React.Fragment>
+          ))}
+        </div>
+        <div>
+          <div className="mono uppercase tracking-[0.24em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Constructors</div>
+          <Hairline className="mt-3"/>
+          {data.constructors_standings.map((c, i) => (
+            <React.Fragment key={i}>
+              <StandingsRow pos={c.pos} delta={c.delta} name={c.name} color={c.color} points={c.points} gap={c.gap} accent={accent}/>
+              {i < data.constructors_standings.length - 1 && <Hairline/>}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+      {data.drivers_change_note && (
+        <div className="display italic mt-6 text-[22px] leading-[1.4]" style={{ fontWeight: 350, color: 'var(--cream)', maxWidth: '92%' }}>
+          {data.drivers_change_note}
+        </div>
+      )}
+      {data.constructors_change_note && (
+        <div className="display italic mt-3 text-[22px] leading-[1.4]" style={{ fontWeight: 350, color: 'var(--cream)', maxWidth: '92%' }}>
+          {data.constructors_change_note}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ────────── 6. Penalties — full last names ────────── */
+const PenaltiesBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <SectionLabel accent={accent}>Penalties & Incidents</SectionLabel>
+      {(!data.penalties || data.penalties.length === 0) ? (
+        <div className="display italic mt-5 text-[24px]" style={{ color: 'var(--cream-dim)', fontWeight: 350 }}>
+          No penalties applied.
+        </div>
+      ) : (
+        <div className="mt-5">
+          <Hairline/>
+          {data.penalties.map((p, i) => (
+            <React.Fragment key={i}>
+              <div className="grid items-center py-[16px]" style={{ gridTemplateColumns: '180px 1fr auto', gap: 24 }}>
+                <span className="sans text-[18px]" style={{ color: accent, fontWeight: 600, letterSpacing: '-0.005em' }}>
+                  {p.driver_last_name}
+                </span>
+                <span className="sans text-[18px]" style={{ fontWeight: 400, color: 'var(--cream)' }}>
+                  {p.infringement}
+                </span>
+                <span className="mono uppercase tracking-[0.16em] text-[14px] num-tab text-right" style={{ color: 'var(--cream-dim)' }}>
+                  {p.sanction}
+                </span>
+              </div>
+              {i < data.penalties.length - 1 && <Hairline/>}
+            </React.Fragment>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ────────── 7. Storylines ────────── */
+const StorylinesBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <SectionLabel accent={accent}>Storylines</SectionLabel>
+      <div className="mt-6 flex flex-col gap-6">
+        {data.storylines.map((s, i) => (
+          <div key={i} className="grid" style={{ gridTemplateColumns: '140px 1fr', gap: 20 }}>
+            <div className="mono uppercase tracking-[0.24em] text-[11px] pt-1" style={{ color: accent }}>
+              {s.tag}
+            </div>
+            <div>
+              <div className="display text-[28px] leading-[1.18]" style={{ fontWeight: 400, color: 'var(--cream)' }}>
+                {s.headline}
+              </div>
+              <div className="sans mt-2 text-[16px] leading-[1.5]" style={{ color: 'var(--cream-dim)' }}>
+                {s.blurb}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── 8. The Read ────────── */
+const TheRead = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative mx-[72px] my-[40px] p-[44px]" style={{ background: 'var(--bg-tint)', borderRadius: 2, borderLeft: `3px solid ${accent}` }}>
+      <SectionLabel accent={accent}>The Read</SectionLabel>
+      <div className="display italic mt-4 text-[28px] leading-[1.34]" style={{ fontWeight: 350, fontVariationSettings: '"opsz" 144, "SOFT" 50' }}>
+        {data.the_read}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── 9. Next Up ────────── */
+const NextUp = ({ data }) => {
+  const accent = data.race.accent_color;
+  const n = data.next_race;
+  if (!n) return null;
+  return (
+    <div className="relative px-[72px] py-[28px] flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        <ChequeredGlyph size={12} color={accent}/>
+        <span className="mono uppercase tracking-[0.28em] text-[12px]" style={{ color: accent }}>Next</span>
+        <span className="mono uppercase tracking-[0.22em] text-[13px]" style={{ color: 'var(--cream)' }}>{n.name}</span>
+        <span className="mono uppercase tracking-[0.22em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>· {n.date_range}</span>
+      </div>
+      <div className="mono uppercase tracking-[0.24em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>
+        <span className="num-tab">{n.days_until}</span> days
+      </div>
+    </div>
+  );
+};
+
+/* ────────── 10. Footer ────────── */
+const Footer = ({ data }) => (
+  <div className="relative px-[72px] pt-[16px] pb-[56px]">
+    <Hairline className="mb-5"/>
+    <div className="flex items-center justify-between">
+      <div className="mono uppercase tracking-[0.28em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>
+        Generated {data.generated_at} · Sources: {data.sources}
+      </div>
+      <div className="mono uppercase tracking-[0.28em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>
+        Results: Formula 1 · No. {pad2(data.round.number)}
+      </div>
+    </div>
+  </div>
+);
+
+/* ────────── Page ────────── */
+const Infographic = ({ data }) => (
+  <div className="stage grain vignette" id="infographic-root">
+    <div className="relative" style={{ zIndex: 1 }}>
+      <Cover data={data} />
+      <Hairline />
+      <PodiumBlock data={data} />
+      <Hairline />
+      <ResultBlock data={data} />
+      {data.dnfs && data.dnfs.length > 0 && <Hairline />}
+      <DNFBlock data={data} />
+      <Hairline />
+      <StandingsBlock data={data} />
+      <Hairline />
+      <PenaltiesBlock data={data} />
+      <Hairline />
+      <StorylinesBlock data={data} />
+      <TheRead data={data} />
+      <Hairline />
+      <NextUp data={data} />
+      <Footer data={data} />
+    </div>
+  </div>
+);
+
+/* ────────── App with data fetch + scaler ────────── */
+const App = () => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const bust = '?t=' + Date.now();
+    fetch('./data/post-race.json' + bust, { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))
+      .then(d => {
+        // Guard: post-race.json is an empty shell when the race hasn't finished yet.
+        if (!d || !d.race || !d.podium) {
+          setError('Post-race data not yet published for this weekend.');
+          return;
+        }
+        setData(d);
+      })
+      .catch(e => setError(String(e)));
+  }, []);
+
+  useEffect(() => {
+    const calc = () => {
+      const vw = window.innerWidth;
+      if (!vw) return;
+      const padding = 80;
+      const sW = (vw - padding) / 1080;
+      setScale(Math.max(0.05, Math.min(sW, 1)));
+    };
+    calc();
+    window.addEventListener('resize', calc);
+    return () => window.removeEventListener('resize', calc);
+  }, []);
+
+  const onDownload = async () => {
+    const node = document.getElementById('infographic-root');
+    if (!node || !window.htmlToImage || !data) return;
+    try {
+      const h = node.scrollHeight;
+      const dataUrl = await window.htmlToImage.toPng(node, {
+        pixelRatio: 2, width: 1080, height: h, backgroundColor: '#0E1320',
+      });
+      const a = document.createElement('a');
+      a.download = `f1-postrace-round-${pad2(data.round.number)}.png`;
+      a.href = dataUrl;
+      a.click();
+    } catch (e) { console.error(e); }
+  };
+
+  if (error) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', flexDirection: 'column', gap: 16, padding: 24, textAlign: 'center' }}>
+      <div className="mono uppercase tracking-[0.2em] text-[12px]" style={{ color: '#E10600' }}>Post-race not available</div>
+      <div className="sans text-[14px]" style={{ color: 'var(--cream-dim)', maxWidth: 400 }}>{error}</div>
+      <a href="./pre-race.html" className="mono uppercase tracking-[0.2em] text-[12px]" style={{ color: 'var(--cream)', textDecoration: 'underline', textUnderlineOffset: 4 }}>
+        ← Back to pre-race
+      </a>
+    </div>
+  );
+
+  if (!data) return (
+    <div className="loading">
+      <div className="spinner"></div>
+      <div className="label">Loading post-race</div>
+    </div>
+  );
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: 40, paddingBottom: 40 }}>
+      <div className="scaler" style={{ transform: `scale(${scale})`, width: 1080 }}>
+        <Infographic data={data}/>
+      </div>
+      <button onClick={onDownload}
+              style={{
+                position: 'fixed', right: 20, bottom: 20, zIndex: 50,
+                background: '#F2EEE6', color: '#0E1320',
+                padding: '12px 18px', borderRadius: 999, border: 'none',
+                fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase',
+                fontWeight: 600, cursor: 'pointer', boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+        Download PNG
+      </button>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
 </body>
 </html>
