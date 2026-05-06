@@ -1,0 +1,12 @@
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+
+# n8n test artifacts (in case anyone runs the workflow locally)
+*.bak
+.scratch/

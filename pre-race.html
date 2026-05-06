@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>F1 Race Week — Pre-race</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+<link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+<div id="root">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div class="label">Loading race data</div>
+  </div>
+</div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
+
+/* ────────── Icons (minimal, lucide-flavored) ────────── */
+const Icon = ({ name, size = 28, stroke = 1.4, color = "currentColor" }) => {
+  const p = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: stroke, strokeLinecap: "round", strokeLinejoin: "round" };
+  if (name === "sun") return (<svg {...p}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>);
+  if (name === "cloud") return (<svg {...p}><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.78 6 6 0 0 0-11.6 1.78A4 4 0 0 0 5 19h12.5z"/></svg>);
+  if (name === "rain") return (<svg {...p}><path d="M17.5 15a4.5 4.5 0 1 0-1.4-8.78 6 6 0 0 0-11.6 1.78A4 4 0 0 0 5 15"/><path d="M8 19v2M12 18v3M16 19v2"/></svg>);
+  if (name === "wind") return (<svg {...p}><path d="M3 8h12a3 3 0 1 0-3-3M3 12h17a3 3 0 1 1-3 3M3 16h9"/></svg>);
+  if (name === "flag") return (<svg {...p}><path d="M4 22V4M4 4h13l-2 4 2 4H4"/></svg>);
+  return null;
+};
+
+/* ────────── Track map — loads SVG from /assets/tracks/{slug}.svg ────────── */
+const TrackMap = ({ slug, color }) => {
+  const [svgMarkup, setSvgMarkup] = useState(null);
+  const [err, setErr] = useState(false);
+
+  useEffect(() => {
+    if (!slug) return;
+    fetch(`./assets/tracks/${slug}.svg`)
+      .then(r => r.ok ? r.text() : Promise.reject('not found'))
+      .then(text => {
+        // Force the path stroke to currentColor so CSS can tint it via parent color.
+        const tinted = text
+          .replace(/stroke:\s*#[0-9a-fA-F]{3,8}/g, 'stroke:currentColor')
+          .replace(/stroke="#[0-9a-fA-F]{3,8}"/g, 'stroke="currentColor"');
+        setSvgMarkup(tinted);
+      })
+      .catch(() => setErr(true));
+  }, [slug]);
+
+  if (err) return (
+    <div className="w-full h-full flex items-center justify-center mono text-[12px]"
+         style={{ color: 'var(--cream-dim)' }}>
+      [ track map missing: {slug}.svg ]
+    </div>
+  );
+  if (!svgMarkup) return <div className="w-full h-full" />;
+
+  return (
+    <div className="w-full h-full flex items-center justify-center"
+         style={{ color, fill: 'none' }}
+         dangerouslySetInnerHTML={{ __html: svgMarkup }} />
+  );
+};
+
+/* ────────── helpers ────────── */
+const pad2 = (n) => String(n).padStart(2, "0");
+const Hairline = ({ className = "" }) => <div className={`hairline ${className}`} />;
+const SectionLabel = ({ children, accent }) => (
+  <div className="mono uppercase tracking-[0.28em] text-[14px]" style={{ color: accent }}>
+    {children}
+  </div>
+);
+
+/* ────────── Cover ────────── */
+const Cover = ({ data }) => {
+  const accent = data.race.accent_color;
+  const r = data.round;
+  return (
+    <div className="relative px-[72px] pt-[80px] pb-[56px]">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="mono uppercase tracking-[0.3em] text-[14px]" style={{ color: accent }}>
+            Round {pad2(r.number)} <span style={{ color: 'var(--cream-dim)' }}>/ {r.total}</span>
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="mono uppercase tracking-[0.3em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>F1 · {data.generated_at.slice(0,4)}</span>
+          <span className="mono uppercase tracking-[0.3em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Issue {pad2(r.number)}</span>
+        </div>
+      </div>
+
+      <Hairline className="mt-5" />
+
+      <div className="mt-[80px]">
+        <div className="mono uppercase tracking-[0.32em] text-[15px]" style={{ color: 'var(--cream-dim)' }}>
+          {data.race.country}
+        </div>
+        <h1 className="display-tight mt-[18px] leading-[0.84]" style={{ fontWeight: 350, fontSize: 168 }}>
+          {data.race.cover_title}
+        </h1>
+        <h2 className="display mt-[6px] leading-[0.95] italic" style={{ fontWeight: 300, fontSize: 92, color: accent, fontVariationSettings: '"opsz" 144, "SOFT" 80, "WONK" 1' }}>
+          Grand Prix
+        </h2>
+      </div>
+
+      <div className="mt-[64px] flex items-end justify-between">
+        <div>
+          <div className="mono uppercase tracking-[0.28em] text-[13px]" style={{ color: 'var(--cream-dim)' }}>Circuit</div>
+          <div className="sans mt-2 text-[28px]" style={{ fontWeight: 500 }}>{data.race.circuit}</div>
+        </div>
+        <div className="text-right">
+          <div className="mono uppercase tracking-[0.28em] text-[13px]" style={{ color: 'var(--cream-dim)' }}>Race week</div>
+          <div className="sans mt-2 text-[28px]" style={{ fontWeight: 500 }}>{data.race.date_range}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ────────── Track block ────────── */
+const TrackBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  const ts = data.track_stats;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <div className="flex items-baseline justify-between">
+        <SectionLabel accent={accent}>The Circuit</SectionLabel>
+        <div className="mono uppercase tracking-[0.24em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>
+          {data.race.city} · {data.race.country}
+        </div>
+      </div>
+
+      <div className="mt-6 -mx-2" style={{ height: 320 }}>
+        <TrackMap slug={data.race.circuit_slug} color={accent} />
+      </div>
+
+      <div className="mt-8 grid grid-cols-3 gap-6 num-tab">
+        <div>
+          <div className="mono uppercase tracking-[0.28em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Turns</div>
+          <div className="display mt-2 text-[64px] leading-none" style={{ fontWeight: 350 }}>{ts.turns}</div>
+        </div>
+        <div>
+          <div className="mono uppercase tracking-[0.28em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Length</div>
+          <div className="display mt-2 text-[64px] leading-none" style={{ fontWeight: 350 }}>
+            {ts.length_km.toFixed(3)}<span className="sans text-[22px] ml-1" style={{ color: 'var(--cream-dim)', fontWeight: 400 }}>km</span>
+          </div>
+        </div>
+        <div>
+          <div className="mono uppercase tracking-[0.28em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>Lap Record</div>
+          <div className="display mt-2 text-[44px] leading-none" style={{ fontWeight: 350 }}>{ts.lap_record.time}</div>
+          <div className="sans mt-2 text-[14px]" style={{ color: 'var(--cream-dim)' }}>
+            {ts.lap_record.driver} <span className="mono">· {ts.lap_record.year}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 display italic text-[26px] leading-[1.35]" style={{ fontWeight: 350, color: 'var(--cream)', maxWidth: '90%' }}>
+        “{ts.character_note}”
+      </div>
+    </div>
+  );
+};
+
+/* ────────── Sessions — Riyadh primary, Local secondary ────────── */
+const SessionsBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  const off = data.session_offsets;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <div className="flex items-baseline justify-between">
+        <SectionLabel accent={accent}>Sessions</SectionLabel>
+        <div className="mono uppercase tracking-[0.24em] text-[12px]" style={{ color: 'var(--cream-dim)' }}>
+          All times listed in 24h
+        </div>
+      </div>
+
+      <div className="mt-6 grid items-end" style={{ gridTemplateColumns: '1.6fr 1fr 1fr' }}>
+        <div></div>
+        <div className="mono uppercase tracking-[0.22em] text-[12px] text-right" style={{ color: 'var(--cream-dim)' }}>Riyadh · {off.riyadh}</div>
+        <div className="mono uppercase tracking-[0.22em] text-[12px] text-right" style={{ color: 'var(--cream-dim)' }}>Local · {off.local}</div>
+      </div>
+
+      <Hairline className="mt-3" />
+
+      {data.sessions.map((s, i) => {
+        const main = s.is_main;
+        return (
+          <div key={i}>
+            <div className="grid items-center num-tab"
+                 style={{
+                   gridTemplateColumns: '1.6fr 1fr 1fr',
+                   paddingTop: main ? 22 : 18,
+                   paddingBottom: main ? 22 : 18,
+                 }}>
+              <div className="flex items-center gap-3">
+                {main && (<span style={{ width: 8, height: 8, borderRadius: 999, background: accent, display: 'inline-block' }}/>)}
+                <span className={main ? "display italic" : "sans"}
+                      style={{
+                        fontWeight: main ? 400 : 500,
+                        fontSize: main ? 38 : 22,
+                        color: main ? accent : 'var(--cream)',
+                        letterSpacing: main ? '-0.01em' : '0',
+                      }}>
+                  {s.name}
+                </span>
+              </div>
+              <div className={`mono text-right ${main ? 'text-[30px]' : 'text-[20px]'}`}
+                   style={{ color: main ? accent : 'var(--cream)', fontWeight: main ? 600 : 500 }}>{s.riyadh}</div>
+              <div className={`mono text-right ${main ? 'text-[22px]' : 'text-[16px]'}`}
+                   style={{ color: 'var(--cream-dim)' }}>{s.local}</div>
+            </div>
+            {i < data.sessions.length - 1 && <Hairline />}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ────────── Tires + Weather ────────── */
+const TiresWeather = ({ data }) => {
+  const accent = data.race.accent_color;
+  const compoundColor = (c) => ({ white: '#F2EEE6', yellow: '#F4D03F', red: '#E74C3C' }[c]);
+  return (
+    <div className="relative px-[72px] py-[56px] grid grid-cols-2 gap-10">
+      <div>
+        <SectionLabel accent={accent}>Pirelli Brings</SectionLabel>
+        <div className="mt-6 flex flex-col gap-3">
+          {data.tires.map((t, i) => {
+            const c = compoundColor(t.color);
+            const isWhite = t.color === 'white';
+            return (
+              <div key={i}
+                   className="flex items-center justify-between px-5"
+                   style={{
+                     height: 76,
+                     background: c,
+                     color: isWhite ? '#0E1320' : (t.color === 'yellow' ? '#0E1320' : '#F2EEE6'),
+                     borderRadius: 2,
+                   }}>
+                <span className="mono uppercase tracking-[0.28em] text-[15px]" style={{ fontWeight: 600 }}>{t.label}</span>
+                <span className="display text-[36px]" style={{ fontWeight: 400 }}>{t.compound}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-4 mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>
+          C1 hardest · C5 softest
+        </div>
+      </div>
+
+      <div>
+        <SectionLabel accent={accent}>Weather</SectionLabel>
+        <div className="mt-6 flex flex-col gap-3">
+          {data.weather.map((w, i) => {
+            const wet = w.rain_pct > 40;
+            const isRace = w.day === 'SUN';
+            const highlight = wet && isRace;
+            return (
+              <div key={i}
+                   className="flex items-center px-5"
+                   style={{
+                     height: 76,
+                     background: highlight ? accent : 'transparent',
+                     border: highlight ? 'none' : '1px solid var(--cream-hairline)',
+                     color: highlight ? '#0E1320' : 'var(--cream)',
+                     borderRadius: 2,
+                   }}>
+                <span className="mono uppercase tracking-[0.28em] text-[14px] w-[44px]" style={{ fontWeight: 600 }}>{w.day}</span>
+                <span className="ml-3"><Icon name={w.icon} size={26} stroke={1.5} /></span>
+                <span className="display ml-4 text-[28px] num-tab" style={{ fontWeight: 400 }}>{w.high_c}°</span>
+                <span className="mono ml-auto text-[14px]" style={{ opacity: 0.85 }}>
+                  <span className="num-tab">{w.rain_pct}%</span><span className="opacity-60"> rain</span>
+                </span>
+                <span className="mono ml-4 text-[14px]" style={{ opacity: 0.85 }}>
+                  <span className="num-tab">{w.wind_kmh}</span><span className="opacity-60"> km/h</span>
+                </span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-4 mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>
+          Highlight on race day rain &gt; 40%
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ────────── Standings ────────── */
+const StandingsRow = ({ pos, name, color, points, gap }) => (
+  <div className="flex items-center py-[14px]">
+    <div className="display num-tab text-[34px] w-[60px]" style={{ fontWeight: 350, color: 'var(--cream)' }}>{pad2(pos)}</div>
+    <div style={{ width: 3, height: 30, background: color, marginRight: 18 }}/>
+    <div className="sans text-[20px]" style={{ fontWeight: 500 }}>{name}</div>
+    <div className="ml-auto flex items-baseline gap-3 num-tab">
+      <span className="display text-[26px]" style={{ fontWeight: 400 }}>{points}</span>
+      <span className="mono text-[13px]" style={{ color: 'var(--cream-dim)' }}>
+        {gap === 0 ? '—' : `(−${gap})`}
+      </span>
+    </div>
+  </div>
+);
+
+const StandingsBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative px-[72px] py-[56px] grid grid-cols-2 gap-12">
+      <div>
+        <div className="flex items-baseline justify-between">
+          <SectionLabel accent={accent}>Top 5 · Drivers</SectionLabel>
+          <span className="mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>PTS</span>
+        </div>
+        <Hairline className="mt-4" />
+        {data.drivers.map((d, i) => (
+          <React.Fragment key={i}>
+            <StandingsRow pos={d.pos} name={d.name} color={d.team_color} points={d.points} gap={d.gap}/>
+            {i < data.drivers.length - 1 && <Hairline />}
+          </React.Fragment>
+        ))}
+      </div>
+      <div>
+        <div className="flex items-baseline justify-between">
+          <SectionLabel accent={accent}>Top 5 · Constructors</SectionLabel>
+          <span className="mono uppercase tracking-[0.22em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>PTS</span>
+        </div>
+        <Hairline className="mt-4" />
+        {data.constructors.map((c, i) => (
+          <React.Fragment key={i}>
+            <StandingsRow pos={c.pos} name={c.name} color={c.color} points={c.points} gap={c.gap}/>
+            {i < data.constructors.length - 1 && <Hairline />}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── Storylines ────────── */
+const StorylinesBlock = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative px-[72px] py-[56px]">
+      <SectionLabel accent={accent}>Storylines</SectionLabel>
+      <div className="mt-6 flex flex-col gap-6">
+        {data.storylines.map((s, i) => (
+          <div key={i} className="grid" style={{ gridTemplateColumns: '120px 1fr', gap: 20 }}>
+            <div className="mono uppercase tracking-[0.24em] text-[11px] pt-1" style={{ color: accent }}>
+              {s.tag}
+            </div>
+            <div>
+              <div className="display text-[30px] leading-[1.15]" style={{ fontWeight: 400, color: 'var(--cream)' }}>
+                {s.headline}
+              </div>
+              <div className="sans mt-2 text-[17px] leading-[1.5]" style={{ color: 'var(--cream-dim)' }}>
+                {s.blurb}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── Things to Watch ────────── */
+const ThingsToWatch = ({ data }) => {
+  const accent = data.race.accent_color;
+  return (
+    <div className="relative mx-[72px] my-[40px] p-[44px]"
+         style={{ background: 'var(--bg-tint)', borderRadius: 2, borderLeft: `3px solid ${accent}` }}>
+      <SectionLabel accent={accent}>Things to Watch</SectionLabel>
+      <div className="display italic mt-4 text-[30px] leading-[1.32]"
+           style={{ fontWeight: 350, fontVariationSettings: '"opsz" 144, "SOFT" 50' }}>
+        {data.things_to_watch}
+      </div>
+    </div>
+  );
+};
+
+/* ────────── Footer ────────── */
+const Footer = ({ data }) => (
+  <div className="relative px-[72px] pt-[24px] pb-[56px] flex items-center justify-between">
+    <div className="mono uppercase tracking-[0.28em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>
+      Generated {data.generated_at} · {data.sources}
+    </div>
+    <div className="mono uppercase tracking-[0.28em] text-[11px]" style={{ color: 'var(--cream-dim)' }}>
+      F1 Race Week · No. {pad2(data.round.number)}
+    </div>
+  </div>
+);
+
+/* ────────── Page ────────── */
+const Infographic = ({ data }) => (
+  <div className="stage grain vignette" id="infographic-root">
+    <div className="relative" style={{ zIndex: 1 }}>
+      <Cover data={data} />
+      <Hairline />
+      <TrackBlock data={data} />
+      <Hairline />
+      <SessionsBlock data={data} />
+      <Hairline />
+      <TiresWeather data={data} />
+      <Hairline />
+      <StandingsBlock data={data} />
+      <Hairline />
+      <StorylinesBlock data={data} />
+      <ThingsToWatch data={data} />
+      <Footer data={data} />
+    </div>
+  </div>
+);
+
+/* ────────── App with data fetch + scaler ────────── */
+const App = () => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const bust = '?t=' + Date.now();
+    fetch('./data/current-race.json' + bust, { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))
+      .then(setData)
+      .catch(e => setError(String(e)));
+  }, []);
+
+  useEffect(() => {
+    const calc = () => {
+      const vw = window.innerWidth;
+      const padding = 80;
+      const sW = (vw - padding) / 1080;
+      setScale(Math.min(sW, 1));
+    };
+    calc();
+    window.addEventListener('resize', calc);
+    return () => window.removeEventListener('resize', calc);
+  }, []);
+
+  const onDownload = async () => {
+    const node = document.getElementById('infographic-root');
+    if (!node || !window.htmlToImage || !data) return;
+    try {
+      const h = node.scrollHeight;
+      const dataUrl = await window.htmlToImage.toPng(node, {
+        pixelRatio: 2,
+        width: 1080, height: h,
+        backgroundColor: '#0E1320',
+      });
+      const a = document.createElement('a');
+      a.download = `f1-raceweek-round-${pad2(data.round.number)}.png`;
+      a.href = dataUrl;
+      a.click();
+    } catch (e) { console.error(e); }
+  };
+
+  if (error) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', flexDirection: 'column', gap: 16, padding: 24, textAlign: 'center' }}>
+      <div className="mono uppercase tracking-[0.2em] text-[12px]" style={{ color: '#E10600' }}>Failed to load race data</div>
+      <div className="sans text-[14px]" style={{ color: 'var(--cream-dim)' }}>{error}</div>
+      <div className="mono text-[12px]" style={{ color: 'var(--cream-dim)' }}>Check ./data/current-race.json</div>
+    </div>
+  );
+
+  if (!data) return (
+    <div className="loading">
+      <div className="spinner"></div>
+      <div className="label">Loading race data</div>
+    </div>
+  );
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: 40, paddingBottom: 40 }}>
+      <div className="scaler" style={{ transform: `scale(${scale})`, width: 1080 }}>
+        <Infographic data={data}/>
+      </div>
+      <button onClick={onDownload}
+              style={{
+                position: 'fixed', right: 20, bottom: 20, zIndex: 50,
+                background: '#F2EEE6', color: '#0E1320',
+                padding: '12px 18px', borderRadius: 999, border: 'none',
+                fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase',
+                fontWeight: 600, cursor: 'pointer', boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+        Download PNG
+      </button>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

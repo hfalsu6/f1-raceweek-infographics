@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>F1 Race Week</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Editorial F1 race-week infographic. Pre-race during the build-up, post-race once the chequered flag drops." />
+<style>
+  html, body { margin: 0; background: #0E1320; color: #F2EEE6; font-family: system-ui, sans-serif; min-height: 100vh; }
+  .loading { display: flex; align-items: center; justify-content: center; min-height: 100vh; flex-direction: column; gap: 12px; }
+  .loading .spinner { width: 24px; height: 24px; border: 2px solid rgba(242,238,230,0.2); border-top-color: #E10600; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .loading .label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(242,238,230,0.55); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div class="label">Loading race week</div>
+  </div>
+</div>
+
+<script>
+/*
+  Auto-flip logic:
+  - Try to load post-race.json. If it exists AND its `published_at` is on/after
+    the race date, redirect to /post-race.html
+  - Otherwise, redirect to /pre-race.html
+  - This is robust against late post-race runs and against viewing months later.
+  - On any error (network, JSON parse, missing data), fall back to pre-race.
+
+  All times handled as ISO date strings (YYYY-MM-DD) — no timezone math needed,
+  since we compare published_at (when n8n committed) to race_date_end (the day
+  the lights went out, in the race's local timezone).
+*/
+(async function () {
+  const PRE = './pre-race.html';
+  const POST = './post-race.html';
+
+  const goTo = (url) => { window.location.replace(url); };
+
+  try {
+    // Both files must be cached-busted because n8n commits frequently
+    const bust = '?t=' + Date.now();
+    const [postResp, currentResp] = await Promise.all([
+      fetch('./data/post-race.json' + bust, { cache: 'no-store' }),
+      fetch('./data/current-race.json' + bust, { cache: 'no-store' }),
+    ]);
+
+    let postData = null;
+    let currentData = null;
+
+    if (postResp.ok) {
+      try { postData = await postResp.json(); } catch (e) { postData = null; }
+    }
+    if (currentResp.ok) {
+      try { currentData = await currentResp.json(); } catch (e) { currentData = null; }
+    }
+
+    // Decide. Post wins only if:
+    //   - post-race.json exists with non-empty payload
+    //   - post-race.json.race.id matches current-race.json.race.id (same weekend)
+    //   - post-race.json.published_at >= current-race.json.race.date_end
+    //
+    // Otherwise show pre-race.
+    if (
+      postData &&
+      postData.race &&
+      currentData &&
+      currentData.race &&
+      postData.race.id === currentData.race.id &&
+      postData.published_at &&
+      currentData.race.date_end &&
+      postData.published_at >= currentData.race.date_end
+    ) {
+      goTo(POST);
+    } else {
+      goTo(PRE);
+    }
+  } catch (err) {
+    // Network failure or worse — pre-race is always the safer default.
+    console.error('Auto-flip failed, defaulting to pre-race:', err);
+    goTo(PRE);
+  }
+})();
+</script>
+</body>
+</html>

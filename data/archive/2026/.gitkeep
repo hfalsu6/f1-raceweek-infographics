@@ -1,0 +1,4 @@
+# Archive of every race weekend's pre- and post-race JSON.
+# n8n appends here on each run. Filenames follow:
+#   round-{NN}-{slug}-pre.json
+#   round-{NN}-{slug}-post.json

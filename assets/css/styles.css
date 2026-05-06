@@ -1,0 +1,69 @@
+:root {
+  --bg: #0E1320;
+  --bg-tint: #161C2C;
+  --cream: #F2EEE6;
+  --cream-dim: rgba(242, 238, 230, 0.55);
+  --cream-faint: rgba(242, 238, 230, 0.12);
+  --cream-hairline: rgba(242, 238, 230, 0.18);
+  --gray: #8A8578;
+  --accent: #E10600;
+}
+
+html, body { background: #1a1a1a; }
+body {
+  margin: 0;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Type families */
+.display      { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0; }
+.display-tight{ font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0; letter-spacing: -0.03em; }
+.mono         { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+.sans         { font-family: 'Inter Tight', system-ui, sans-serif; }
+.num-tab      { font-feature-settings: "tnum" 1, "lnum" 1; }
+
+/* Page chrome */
+.stage {
+  width: 1080px;
+  background: var(--bg);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.scaler { transform-origin: top center; }
+.hairline { height: 1px; background: var(--cream-hairline); width: 100%; }
+
+/* Subtle texture */
+.grain::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: overlay;
+  z-index: 0;
+}
+.vignette::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, transparent 40%, rgba(0,0,0,0.45) 100%);
+  z-index: 0;
+}
+
+/* Loading state (used by index.html and the templates before data arrives) */
+.loading {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; flex-direction: column; gap: 12px;
+}
+.loading .spinner {
+  width: 24px; height: 24px;
+  border: 2px solid rgba(242,238,230,0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.loading .label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream-dim);
+}
+@keyframes spin { to { transform: rotate(360deg); } }

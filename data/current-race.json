@@ -1,0 +1,77 @@
+{
+  "_comment": "Pre-race data for the most recent race weekend. n8n overwrites this each Thursday. Race info sourced from F1 official + RaceFans + Sky Sports for Suzuka 2026.",
+  "phase": "pre",
+  "round": { "number": 3, "total": 24 },
+  "race": {
+    "id": "2026-japanese-gp",
+    "name": "Japanese Grand Prix",
+    "circuit": "Suzuka International Racing Course",
+    "circuit_slug": "suzuka",
+    "country": "Japan",
+    "city": "Suzuka",
+    "cover_title": "Suzuka",
+    "date_range": "27–29 March 2026",
+    "date_start": "2026-03-27",
+    "date_end": "2026-03-29",
+    "accent_color": "#E10600"
+  },
+  "track_stats": {
+    "turns": 18,
+    "length_km": 5.807,
+    "lap_record": { "time": "1:30.983", "driver": "L. Hamilton", "year": 2019 },
+    "character_note": "Figure-of-eight. The Esses, Degner, Spoon and 130R reward bravery and punish the rest."
+  },
+  "sessions": [
+    { "name": "FP1",        "riyadh": "05:30", "local": "11:30" },
+    { "name": "FP2",        "riyadh": "09:00", "local": "15:00" },
+    { "name": "FP3",        "riyadh": "05:30", "local": "11:30" },
+    { "name": "Qualifying", "riyadh": "09:00", "local": "15:00" },
+    { "name": "Race",       "riyadh": "08:00", "local": "14:00", "is_main": true }
+  ],
+  "session_offsets": { "riyadh": "AST", "local": "JST" },
+  "tires": [
+    { "compound": "C1", "label": "HARD",   "color": "white" },
+    { "compound": "C2", "label": "MEDIUM", "color": "yellow" },
+    { "compound": "C3", "label": "SOFT",   "color": "red" }
+  ],
+  "weather": [
+    { "day": "FRI", "high_c": 17, "icon": "cloud", "rain_pct": 20, "wind_kmh": 14 },
+    { "day": "SAT", "high_c": 16, "icon": "cloud", "rain_pct": 35, "wind_kmh": 18 },
+    { "day": "SUN", "high_c": 18, "icon": "sun",   "rain_pct": 10, "wind_kmh": 12 }
+  ],
+  "drivers": [
+    { "pos": 1, "name": "George Russell",    "team_color": "#27F4D2", "points": 44, "gap": 0  },
+    { "pos": 2, "name": "Kimi Antonelli",    "team_color": "#27F4D2", "points": 38, "gap": 6  },
+    { "pos": 3, "name": "Charles Leclerc",   "team_color": "#E80020", "points": 28, "gap": 16 },
+    { "pos": 4, "name": "Lewis Hamilton",    "team_color": "#E80020", "points": 24, "gap": 20 },
+    { "pos": 5, "name": "Max Verstappen",    "team_color": "#1E5BC6", "points": 18, "gap": 26 }
+  ],
+  "constructors": [
+    { "pos": 1, "name": "Mercedes",      "color": "#27F4D2", "points": 82, "gap": 0  },
+    { "pos": 2, "name": "Ferrari",       "color": "#E80020", "points": 52, "gap": 30 },
+    { "pos": 3, "name": "Red Bull",      "color": "#1E5BC6", "points": 24, "gap": 58 },
+    { "pos": 4, "name": "Aston Martin",  "color": "#229971", "points": 12, "gap": 70 },
+    { "pos": 5, "name": "McLaren",       "color": "#FF8000", "points": 8,  "gap": 74 }
+  ],
+  "storylines": [
+    {
+      "headline": "Mercedes look uncatchable through two rounds",
+      "blurb": "Two one-twos in two races. Russell leads, Antonelli is the youngest race winner ever. Suzuka's flowing layout might suit them even better.",
+      "tag": "CHAMPIONSHIP"
+    },
+    {
+      "headline": "McLaren still searching for a finish",
+      "blurb": "A double DNS in Shanghai followed a quiet Australia. Whatever's wrong with the new car, this is the worst possible weekend to find out it isn't fixed.",
+      "tag": "TECHNICAL"
+    },
+    {
+      "headline": "Verstappen unbeaten at Suzuka since 2022",
+      "blurb": "Four straight wins here, but in a Red Bull off the pace this year. The crowd will be loud either way — they'll be louder if he steals it.",
+      "tag": "DRIVER MARKET"
+    }
+  ],
+  "things_to_watch": "If it rains in qualifying — which the forecast just barely allows for — the order resets. Suzuka in the wet is the most demanding lap on the calendar, and Antonelli has never driven it. Watch the timing screens during Q1.",
+  "generated_at": "2026-03-26",
+  "published_at": "2026-03-26T08:00:00+10:30",
+  "sources": "OpenF1 · Pirelli · Open-Meteo"
+}

@@ -1,0 +1,6 @@
+{
+  "_comment": "Empty until the post-race workflow runs. The auto-flip logic in index.html only redirects to post-race.html when this file has matching race.id and a published_at on/after current-race.race.date_end.",
+  "phase": "post",
+  "race": null,
+  "published_at": null
+}
