@@ -50,7 +50,7 @@ const TrackMap = ({ slug, color }) => {
         const tinted = text
           .replace(/stroke:\s*#[0-9a-fA-F]{3,8}/g, 'stroke:currentColor')
           .replace(/stroke="#[0-9a-fA-F]{3,8}"/g, 'stroke="currentColor"')
-          .replace(/<svg /, '<svg width="100%" height="100%" ');
+          .replace(/<svg /, '<svg style="display:block;width:100%;height:100%;" ');
         setSvgMarkup(tinted);
       })
       .catch(() => setErr(true));
@@ -65,7 +65,7 @@ const TrackMap = ({ slug, color }) => {
   if (!svgMarkup) return <div className="w-full h-full" />;
 
   return (
-    <div className="w-full h-full flex items-center justify-center"
+    <div className="w-full h-full"
          style={{ color, fill: 'none' }}
          dangerouslySetInnerHTML={{ __html: svgMarkup }} />
   );
