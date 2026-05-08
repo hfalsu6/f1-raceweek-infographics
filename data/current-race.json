@@ -1,77 +1,77 @@
 {
-  "_comment": "Pre-race data for the most recent race weekend. n8n overwrites this each Thursday. Race info sourced from F1 official + RaceFans + Sky Sports for Suzuka 2026.",
+  "_comment": "Pre-race data for the most recent race weekend. n8n overwrites this each Thursday.",
   "phase": "pre",
-  "round": { "number": 3, "total": 24 },
+  "round": { "number": 5, "total": 24 },
   "race": {
-    "id": "2026-japanese-gp",
-    "name": "Japanese Grand Prix",
-    "circuit": "Suzuka International Racing Course",
-    "circuit_slug": "suzuka",
-    "country": "Japan",
-    "city": "Suzuka",
-    "cover_title": "Suzuka",
-    "date_range": "27–29 March 2026",
-    "date_start": "2026-03-27",
-    "date_end": "2026-03-29",
-    "accent_color": "#E10600"
+    "id": "2026-miami-gp",
+    "name": "Miami Grand Prix",
+    "circuit": "Miami International Autodrome",
+    "circuit_slug": "miami",
+    "country": "USA",
+    "city": "Miami",
+    "cover_title": "Miami",
+    "date_range": "1–4 May 2026",
+    "date_start": "2026-05-01",
+    "date_end": "2026-05-04",
+    "accent_color": "#00E1D2"
   },
   "track_stats": {
-    "turns": 18,
-    "length_km": 5.807,
-    "lap_record": { "time": "1:30.983", "driver": "L. Hamilton", "year": 2019 },
-    "character_note": "Figure-of-eight. The Esses, Degner, Spoon and 130R reward bravery and punish the rest."
+    "turns": 19,
+    "length_km": 5.412,
+    "lap_record": { "time": "1:29.708", "driver": "M. Verstappen", "year": 2023 },
+    "character_note": "A high-speed temporary street circuit winding around the iconic Hard Rock Stadium complex."
   },
   "sessions": [
-    { "name": "FP1",        "riyadh": "05:30", "local": "11:30" },
-    { "name": "FP2",        "riyadh": "09:00", "local": "15:00" },
-    { "name": "FP3",        "riyadh": "05:30", "local": "11:30" },
-    { "name": "Qualifying", "riyadh": "09:00", "local": "15:00" },
-    { "name": "Race",       "riyadh": "08:00", "local": "14:00", "is_main": true }
+    { "name": "FP1",              "riyadh": "19:00", "local": "12:00" },
+    { "name": "Sprint Qualifying","riyadh": "23:30", "local": "16:30" },
+    { "name": "Sprint",           "riyadh": "19:00", "local": "12:00" },
+    { "name": "Qualifying",       "riyadh": "23:00", "local": "16:00" },
+    { "name": "Race",             "riyadh": "20:00", "local": "13:00", "is_main": true }
   ],
-  "session_offsets": { "riyadh": "AST", "local": "JST" },
+  "session_offsets": { "riyadh": "AST", "local": "EDT" },
   "tires": [
-    { "compound": "C1", "label": "HARD",   "color": "white" },
-    { "compound": "C2", "label": "MEDIUM", "color": "yellow" },
-    { "compound": "C3", "label": "SOFT",   "color": "red" }
+    { "compound": "C3", "label": "HARD",   "color": "white" },
+    { "compound": "C4", "label": "MEDIUM", "color": "yellow" },
+    { "compound": "C5", "label": "SOFT",   "color": "red" }
   ],
   "weather": [
-    { "day": "FRI", "high_c": 17, "icon": "cloud", "rain_pct": 20, "wind_kmh": 14 },
-    { "day": "SAT", "high_c": 16, "icon": "cloud", "rain_pct": 35, "wind_kmh": 18 },
-    { "day": "SUN", "high_c": 18, "icon": "sun",   "rain_pct": 10, "wind_kmh": 12 }
+    { "day": "FRI", "high_c": 33, "icon": "cloud", "rain_pct": 0,  "wind_kmh": 20 },
+    { "day": "SAT", "high_c": 35, "icon": "cloud", "rain_pct": 3,  "wind_kmh": 24 },
+    { "day": "SUN", "high_c": 28, "icon": "rain",  "rain_pct": 46, "wind_kmh": 15 }
   ],
   "drivers": [
-    { "pos": 1, "name": "George Russell",    "team_color": "#27F4D2", "points": 44, "gap": 0  },
-    { "pos": 2, "name": "Kimi Antonelli",    "team_color": "#27F4D2", "points": 38, "gap": 6  },
-    { "pos": 3, "name": "Charles Leclerc",   "team_color": "#E80020", "points": 28, "gap": 16 },
-    { "pos": 4, "name": "Lewis Hamilton",    "team_color": "#E80020", "points": 24, "gap": 20 },
-    { "pos": 5, "name": "Max Verstappen",    "team_color": "#1E5BC6", "points": 18, "gap": 26 }
+    { "pos": 1, "name": "Andrea Kimi Antonelli", "team_color": "#27F4D2", "points": 100, "gap": 0  },
+    { "pos": 2, "name": "George Russell",        "team_color": "#27F4D2", "points": 80,  "gap": 20 },
+    { "pos": 3, "name": "Charles Leclerc",       "team_color": "#E80020", "points": 59,  "gap": 41 },
+    { "pos": 4, "name": "Lando Norris",          "team_color": "#FF8000", "points": 51,  "gap": 49 },
+    { "pos": 5, "name": "Lewis Hamilton",        "team_color": "#E80020", "points": 51,  "gap": 49 }
   ],
   "constructors": [
-    { "pos": 1, "name": "Mercedes",      "color": "#27F4D2", "points": 82, "gap": 0  },
-    { "pos": 2, "name": "Ferrari",       "color": "#E80020", "points": 52, "gap": 30 },
-    { "pos": 3, "name": "Red Bull",      "color": "#1E5BC6", "points": 24, "gap": 58 },
-    { "pos": 4, "name": "Aston Martin",  "color": "#229971", "points": 12, "gap": 70 },
-    { "pos": 5, "name": "McLaren",       "color": "#FF8000", "points": 8,  "gap": 74 }
+    { "pos": 1, "name": "Mercedes",       "color": "#27F4D2", "points": 180, "gap": 0   },
+    { "pos": 2, "name": "Ferrari",        "color": "#E80020", "points": 110, "gap": 70  },
+    { "pos": 3, "name": "McLaren",        "color": "#FF8000", "points": 94,  "gap": 86  },
+    { "pos": 4, "name": "Red Bull",       "color": "#1E5BC6", "points": 30,  "gap": 150 },
+    { "pos": 5, "name": "Alpine F1 Team", "color": "#FF87BC", "points": 23,  "gap": 157 }
   ],
   "storylines": [
     {
-      "headline": "Mercedes look uncatchable through two rounds",
-      "blurb": "Two one-twos in two races. Russell leads, Antonelli is the youngest race winner ever. Suzuka's flowing layout might suit them even better.",
-      "tag": "CHAMPIONSHIP"
+      "tag": "TECHNICAL",
+      "headline": "New energy management rules debut to curb 'leapfrog' racing",
+      "blurb": "The FIA has introduced immediate tweaks to electrical deployment and recharge limits to address concerns about artificial overtaking and high closing speeds."
     },
     {
-      "headline": "McLaren still searching for a finish",
-      "blurb": "A double DNS in Shanghai followed a quiet Australia. Whatever's wrong with the new car, this is the worst possible weekend to find out it isn't fixed.",
-      "tag": "TECHNICAL"
+      "tag": "CHAMPIONSHIP",
+      "headline": "Kimi Antonelli leads the standings into his first Miami start",
+      "blurb": "The Mercedes rookie sensation arrives in Florida as the championship leader after back-to-back victories in China and Japan."
     },
     {
-      "headline": "Verstappen unbeaten at Suzuka since 2022",
-      "blurb": "Four straight wins here, but in a Red Bull off the pace this year. The crowd will be loud either way — they'll be louder if he steals it.",
-      "tag": "DRIVER MARKET"
+      "tag": "DRIVER MARKET",
+      "headline": "Cadillac makes home debut with Perez and Bottas pairing",
+      "blurb": "The new 11th team on the grid faces its first home race in the USA, banking on veteran experience to secure their first points."
     }
   ],
-  "things_to_watch": "If it rains in qualifying — which the forecast just barely allows for — the order resets. Suzuka in the wet is the most demanding lap on the calendar, and Antonelli has never driven it. Watch the timing screens during Q1.",
-  "generated_at": "2026-03-26",
-  "published_at": "2026-03-26T08:00:00+10:30",
+  "things_to_watch": "Watch how teams adapt to the revised power unit regulations during the 90-minute FP1. The smooth asphalt and intense Florida heat will drive high thermal degradation on the softest C5 compounds. Keep an eye on the start procedure, where new safety warning lights for slow-starting cars will be tested.",
+  "generated_at": "2026-05-08",
+  "published_at": "2026-05-08T03:34:48.000Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
