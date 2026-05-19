@@ -1,7 +1,9 @@
 {
-  "_comment": "Pre-race data for the most recent race weekend. n8n overwrites this each Thursday.",
   "phase": "pre",
-  "round": { "number": 5, "total": 24 },
+  "round": {
+    "number": 5,
+    "total": 24
+  },
   "race": {
     "id": "2026-miami-gp",
     "name": "Miami Grand Prix",
@@ -13,65 +15,183 @@
     "date_range": "1–4 May 2026",
     "date_start": "2026-05-01",
     "date_end": "2026-05-04",
-    "accent_color": "#00E1D2"
+    "accent_color": "#00D2BE"
   },
   "track_stats": {
     "turns": 19,
     "length_km": 5.412,
-    "lap_record": { "time": "1:29.708", "driver": "M. Verstappen", "year": 2023 },
-    "character_note": "A high-speed temporary street circuit winding around the iconic Hard Rock Stadium complex."
+    "lap_record": {
+      "time": "1:29.708",
+      "driver": "L. Norris",
+      "year": 2025
+    },
+    "character_note": "A high-speed hybrid street circuit demanding precision through the stadium complex and maximum ERS deployment."
   },
   "sessions": [
-    { "name": "FP1",              "riyadh": "19:00", "local": "12:00" },
-    { "name": "Sprint Qualifying","riyadh": "23:30", "local": "16:30" },
-    { "name": "Sprint",           "riyadh": "19:00", "local": "12:00" },
-    { "name": "Qualifying",       "riyadh": "23:00", "local": "16:00" },
-    { "name": "Race",             "riyadh": "20:00", "local": "13:00", "is_main": true }
+    {
+      "name": "FP1",
+      "riyadh": "19:00",
+      "local": "12:00"
+    },
+    {
+      "name": "Sprint Qualifying",
+      "riyadh": "23:30",
+      "local": "16:30"
+    },
+    {
+      "name": "Sprint",
+      "riyadh": "19:00",
+      "local": "12:00"
+    },
+    {
+      "name": "Qualifying",
+      "riyadh": "23:00",
+      "local": "16:00"
+    },
+    {
+      "name": "Race",
+      "riyadh": "20:00",
+      "local": "13:00",
+      "is_main": true
+    }
   ],
-  "session_offsets": { "riyadh": "AST", "local": "EDT" },
+  "session_offsets": {
+    "riyadh": "AST",
+    "local": "EDT"
+  },
   "tires": [
-    { "compound": "C3", "label": "HARD",   "color": "white" },
-    { "compound": "C4", "label": "MEDIUM", "color": "yellow" },
-    { "compound": "C5", "label": "SOFT",   "color": "red" }
+    {
+      "compound": "C3",
+      "label": "HARD",
+      "color": "white"
+    },
+    {
+      "compound": "C4",
+      "label": "MEDIUM",
+      "color": "yellow"
+    },
+    {
+      "compound": "C5",
+      "label": "SOFT",
+      "color": "red"
+    }
   ],
   "weather": [
-    { "day": "FRI", "high_c": 33, "icon": "cloud", "rain_pct": 0,  "wind_kmh": 20 },
-    { "day": "SAT", "high_c": 35, "icon": "cloud", "rain_pct": 3,  "wind_kmh": 24 },
-    { "day": "SUN", "high_c": 28, "icon": "rain",  "rain_pct": 46, "wind_kmh": 15 }
+    {
+      "day": "FRI",
+      "high_c": 33,
+      "icon": "cloud",
+      "rain_pct": 0,
+      "wind_kmh": 20
+    },
+    {
+      "day": "SAT",
+      "high_c": 35,
+      "icon": "cloud",
+      "rain_pct": 3,
+      "wind_kmh": 24
+    },
+    {
+      "day": "SUN",
+      "high_c": 28,
+      "icon": "rain",
+      "rain_pct": 46,
+      "wind_kmh": 15
+    }
   ],
   "drivers": [
-    { "pos": 1, "name": "Andrea Kimi Antonelli", "team_color": "#27F4D2", "points": 100, "gap": 0  },
-    { "pos": 2, "name": "George Russell",        "team_color": "#27F4D2", "points": 80,  "gap": 20 },
-    { "pos": 3, "name": "Charles Leclerc",       "team_color": "#E80020", "points": 59,  "gap": 41 },
-    { "pos": 4, "name": "Lando Norris",          "team_color": "#FF8000", "points": 51,  "gap": 49 },
-    { "pos": 5, "name": "Lewis Hamilton",        "team_color": "#E80020", "points": 51,  "gap": 49 }
+    {
+      "pos": 1,
+      "name": "Andrea Kimi Antonelli",
+      "team_color": "#27F4D2",
+      "points": 100,
+      "gap": 0
+    },
+    {
+      "pos": 2,
+      "name": "George Russell",
+      "team_color": "#27F4D2",
+      "points": 80,
+      "gap": 20
+    },
+    {
+      "pos": 3,
+      "name": "Charles Leclerc",
+      "team_color": "#E80020",
+      "points": 59,
+      "gap": 41
+    },
+    {
+      "pos": 4,
+      "name": "Lando Norris",
+      "team_color": "#FF8000",
+      "points": 51,
+      "gap": 49
+    },
+    {
+      "pos": 5,
+      "name": "Lewis Hamilton",
+      "team_color": "#E80020",
+      "points": 51,
+      "gap": 49
+    }
   ],
   "constructors": [
-    { "pos": 1, "name": "Mercedes",       "color": "#27F4D2", "points": 180, "gap": 0   },
-    { "pos": 2, "name": "Ferrari",        "color": "#E80020", "points": 110, "gap": 70  },
-    { "pos": 3, "name": "McLaren",        "color": "#FF8000", "points": 94,  "gap": 86  },
-    { "pos": 4, "name": "Red Bull",       "color": "#1E5BC6", "points": 30,  "gap": 150 },
-    { "pos": 5, "name": "Alpine F1 Team", "color": "#FF87BC", "points": 23,  "gap": 157 }
+    {
+      "pos": 1,
+      "name": "Mercedes",
+      "color": "#27F4D2",
+      "points": 180,
+      "gap": 0
+    },
+    {
+      "pos": 2,
+      "name": "Ferrari",
+      "color": "#E80020",
+      "points": 110,
+      "gap": 70
+    },
+    {
+      "pos": 3,
+      "name": "McLaren",
+      "color": "#FF8000",
+      "points": 94,
+      "gap": 86
+    },
+    {
+      "pos": 4,
+      "name": "Red Bull",
+      "color": "#1E5BC6",
+      "points": 30,
+      "gap": 150
+    },
+    {
+      "pos": 5,
+      "name": "Alpine F1 Team",
+      "color": "#FF87BC",
+      "points": 23,
+      "gap": 157
+    }
   ],
   "storylines": [
     {
-      "tag": "TECHNICAL",
-      "headline": "New energy management rules debut to curb 'leapfrog' racing",
-      "blurb": "The FIA has introduced immediate tweaks to electrical deployment and recharge limits to address concerns about artificial overtaking and high closing speeds."
-    },
-    {
       "tag": "CHAMPIONSHIP",
-      "headline": "Kimi Antonelli leads the standings into his first Miami start",
-      "blurb": "The Mercedes rookie sensation arrives in Florida as the championship leader after back-to-back victories in China and Japan."
+      "headline": "Rookie Kimi Antonelli leads standings as Mercedes finds 2026 sweet spot",
+      "blurb": "The Italian teenager heads to Florida with 100 points, shocking the paddock while established champions struggle with energy recovery."
     },
     {
       "tag": "DRIVER MARKET",
-      "headline": "Cadillac makes home debut with Perez and Bottas pairing",
-      "blurb": "The new 11th team on the grid faces its first home race in the USA, banking on veteran experience to secure their first points."
+      "headline": "Verstappen linked to McLaren as Red Bull eyes Oscar Piastri replacement",
+      "blurb": "Speculation intensifies over Max Verstappen's future following a difficult start to the new regulation cycle and Red Bull's performance slump."
+    },
+    {
+      "tag": "TECHNICAL",
+      "headline": "ERS management becomes critical factor under new 50/50 power split regulations",
+      "blurb": "Teams are battling 'clipping' on Miami's long straights, where electrical deployment now matches internal combustion output for the first time."
     }
   ],
-  "things_to_watch": "Watch how teams adapt to the revised power unit regulations during the 90-minute FP1. The smooth asphalt and intense Florida heat will drive high thermal degradation on the softest C5 compounds. Keep an eye on the start procedure, where new safety warning lights for slow-starting cars will be tested.",
-  "generated_at": "2026-05-08",
-  "published_at": "2026-05-08T03:34:48.000Z",
+  "things_to_watch": "Watch for the 13:00 local start time, moved three hours earlier to avoid forecast afternoon thunderstorms. The smooth asphalt favors the softest C5 compound for qualifying, but the race will likely hinge on thermal management of the C3 Hards in the intense Florida humidity.",
+  "generated_at": "2026-05-20",
+  "published_at": "2026-05-19T14:46:23.249Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }

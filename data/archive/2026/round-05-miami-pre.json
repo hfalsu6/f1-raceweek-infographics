@@ -15,17 +15,17 @@
     "date_range": "1–4 May 2026",
     "date_start": "2026-05-01",
     "date_end": "2026-05-04",
-    "accent_color": "#00E1D2"
+    "accent_color": "#00D2BE"
   },
   "track_stats": {
     "turns": 19,
     "length_km": 5.412,
     "lap_record": {
       "time": "1:29.708",
-      "driver": "M. Verstappen",
-      "year": 2023
+      "driver": "L. Norris",
+      "year": 2025
     },
-    "character_note": "A high-speed temporary street circuit winding around the iconic Hard Rock Stadium complex."
+    "character_note": "A high-speed hybrid street circuit demanding precision through the stadium complex and maximum ERS deployment."
   },
   "sessions": [
     {
@@ -175,23 +175,23 @@
   ],
   "storylines": [
     {
-      "tag": "TECHNICAL",
-      "headline": "New energy management rules debut to curb 'leapfrog' racing",
-      "blurb": "The FIA has introduced immediate tweaks to electrical deployment and recharge limits to address concerns about artificial overtaking and high closing speeds."
-    },
-    {
       "tag": "CHAMPIONSHIP",
-      "headline": "Kimi Antonelli leads the standings into his first Miami start",
-      "blurb": "The Mercedes rookie sensation arrives in Florida as the championship leader after back-to-back victories in China and Japan."
+      "headline": "Rookie Kimi Antonelli leads standings as Mercedes finds 2026 sweet spot",
+      "blurb": "The Italian teenager heads to Florida with 100 points, shocking the paddock while established champions struggle with energy recovery."
     },
     {
       "tag": "DRIVER MARKET",
-      "headline": "Cadillac makes home debut with Perez and Bottas pairing",
-      "blurb": "The new 11th team on the grid faces its first home race in the USA, banking on veteran experience to secure their first points."
+      "headline": "Verstappen linked to McLaren as Red Bull eyes Oscar Piastri replacement",
+      "blurb": "Speculation intensifies over Max Verstappen's future following a difficult start to the new regulation cycle and Red Bull's performance slump."
+    },
+    {
+      "tag": "TECHNICAL",
+      "headline": "ERS management becomes critical factor under new 50/50 power split regulations",
+      "blurb": "Teams are battling 'clipping' on Miami's long straights, where electrical deployment now matches internal combustion output for the first time."
     }
   ],
-  "things_to_watch": "Watch how teams adapt to the revised power unit regulations during the 90-minute FP1. The smooth asphalt and intense Florida heat will drive high thermal degradation on the softest C5 compounds. Keep an eye on the start procedure, where new safety warning lights for slow-starting cars will be tested.",
-  "generated_at": "2026-05-08",
-  "published_at": "2026-05-08T03:34:48.000Z",
+  "things_to_watch": "Watch for the 13:00 local start time, moved three hours earlier to avoid forecast afternoon thunderstorms. The smooth asphalt favors the softest C5 compound for qualifying, but the race will likely hinge on thermal management of the C3 Hards in the intense Florida humidity.",
+  "generated_at": "2026-05-20",
+  "published_at": "2026-05-19T14:46:23.249Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
