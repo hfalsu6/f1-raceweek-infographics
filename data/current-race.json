@@ -22,10 +22,10 @@
     "length_km": 5.412,
     "lap_record": {
       "time": "1:29.708",
-      "driver": "L. Norris",
-      "year": 2025
+      "driver": "M. Verstappen",
+      "year": 2023
     },
-    "character_note": "A high-speed hybrid street circuit demanding precision through the stadium complex and maximum ERS deployment."
+    "character_note": "A high-speed hybrid challenge winding around the Hard Rock Stadium with a distinct street-circuit edge."
   },
   "sessions": [
     {
@@ -176,22 +176,22 @@
   "storylines": [
     {
       "tag": "CHAMPIONSHIP",
-      "headline": "Rookie Kimi Antonelli leads standings as Mercedes finds 2026 sweet spot",
-      "blurb": "The Italian teenager heads to Florida with 100 points, shocking the paddock while established champions struggle with energy recovery."
-    },
-    {
-      "tag": "DRIVER MARKET",
-      "headline": "Verstappen linked to McLaren as Red Bull eyes Oscar Piastri replacement",
-      "blurb": "Speculation intensifies over Max Verstappen's future following a difficult start to the new regulation cycle and Red Bull's performance slump."
+      "headline": "Antonelli leads the standings as Mercedes dominates early 2026 era",
+      "blurb": "Teenage sensation Kimi Antonelli arrives in Miami as the championship leader following a historic victory in Japan, heading a resurgent Mercedes squad."
     },
     {
       "tag": "TECHNICAL",
-      "headline": "ERS management becomes critical factor under new 50/50 power split regulations",
-      "blurb": "Teams are battling 'clipping' on Miami's long straights, where electrical deployment now matches internal combustion output for the first time."
+      "headline": "New energy management rules debut to address power unit concerns",
+      "blurb": "The FIA has introduced revised deployment regulations for the Miami Sprint weekend to balance performance under the new 2026 power unit framework."
+    },
+    {
+      "tag": "DRIVER MARKET",
+      "headline": "Cadillac and Audi entries shake up the 2027 paddock whispers",
+      "blurb": "With Cadillac debuting on the grid and Audi's works project underway, the Miami paddock is buzzing with rumors regarding high-profile driver shifts for next season."
     }
   ],
-  "things_to_watch": "Watch for the 13:00 local start time, moved three hours earlier to avoid forecast afternoon thunderstorms. The smooth asphalt favors the softest C5 compound for qualifying, but the race will likely hinge on thermal management of the C3 Hards in the intense Florida humidity.",
+  "things_to_watch": "The 2026 Miami Grand Prix features a Sprint format on a resurfaced, low-abrasion track. Watch for thermal degradation in the Florida heat and the impact of the new energy deployment rules on the three long straights, where top speeds are expected to exceed 340kph.",
   "generated_at": "2026-05-20",
-  "published_at": "2026-05-19T14:46:23.249Z",
+  "published_at": "2026-05-19T14:52:29.960Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
