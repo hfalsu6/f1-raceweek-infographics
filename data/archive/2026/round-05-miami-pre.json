@@ -25,33 +25,33 @@
       "driver": "M. Verstappen",
       "year": 2023
     },
-    "character_note": "A high-speed temporary circuit blending stadium parking with public roads, demanding low-drag efficiency and precision."
+    "character_note": "A high-speed hybrid street circuit snaking around Hard Rock Stadium with three distinct sectors."
   },
   "sessions": [
     {
       "name": "FP1",
-      "riyadh": "16:00",
-      "local": "09:00"
+      "riyadh": "19:00",
+      "local": "12:00"
     },
     {
       "name": "Sprint Qualifying",
-      "riyadh": "20:30",
-      "local": "13:30"
+      "riyadh": "23:30",
+      "local": "16:30"
     },
     {
       "name": "Sprint",
-      "riyadh": "16:00",
-      "local": "09:00"
+      "riyadh": "19:00",
+      "local": "12:00"
     },
     {
       "name": "Qualifying",
-      "riyadh": "20:00",
-      "local": "13:00"
+      "riyadh": "23:00",
+      "local": "16:00"
     },
     {
       "name": "Race",
-      "riyadh": "17:00",
-      "local": "10:00",
+      "riyadh": "20:00",
+      "local": "13:00",
       "is_main": true
     }
   ],
@@ -176,22 +176,22 @@
   "storylines": [
     {
       "tag": "CHAMPIONSHIP",
-      "headline": "Rookie Sensation Antonelli Leads Title Race After Florida Triumph",
-      "blurb": "Kimi Antonelli has opened a 20-point lead over teammate George Russell following a third victory of the season in Miami."
+      "headline": "Kimi Antonelli arrives in Miami as the surprise championship leader",
+      "blurb": "Following a breakthrough victory in Japan, the Mercedes rookie leads the standings as the sport returns to Florida for the first Sprint weekend of the month."
     },
     {
       "tag": "TECHNICAL",
-      "headline": "FIA Monitors Engine Performance Under New ADUO Upgrade System",
-      "blurb": "The first monitoring period for the 2026 Power Unit regulations concludes, determining which manufacturers receive extra development tokens."
+      "headline": "New FIA energy management rules debut to solve lift-and-coast issues",
+      "blurb": "Revised power unit deployment limits aim to eliminate awkward qualifying tactics and improve wheel-to-wheel racing following driver complaints from the opening rounds."
     },
     {
       "tag": "DRIVER MARKET",
-      "headline": "Rumors Swirl Around Hamilton Retirement and Verstappen Future",
-      "blurb": "Speculation intensifies regarding Lewis Hamilton's potential exit from Ferrari in 2026, while Red Bull targets Piastri as a contingency."
+      "headline": "Verstappen future remains focal point as Red Bull form fluctuates",
+      "blurb": "Speculation regarding a potential move to Mercedes persists as Red Bull struggles to maintain its technical dominance under the 2026 regulations."
     }
   ],
-  "things_to_watch": "High track temperatures in Miami test Pirelli's softest range (C3-C5), where thermal degradation outweighs mechanical wear. Watch the technical battle as McLaren and Ferrari bring major upgrades to close the gap on the dominant Mercedes W17, while Alpine looks to maintain its surprising midfield lead.",
+  "things_to_watch": "Watch for the impact of the 13:00 local start time, moved three hours earlier to avoid late-afternoon thunderstorms. The smooth asphalt favors the softest C3-C5 range, but high thermal loads will make managing the C5 Soft a critical challenge during the high-speed Sprint dash.",
   "generated_at": "2026-05-20",
-  "published_at": "2026-05-20T00:38:59.327Z",
+  "published_at": "2026-05-20T04:24:15.076Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
