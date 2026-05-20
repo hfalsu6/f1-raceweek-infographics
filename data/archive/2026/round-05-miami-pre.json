@@ -15,7 +15,7 @@
     "date_range": "1–4 May 2026",
     "date_start": "2026-05-01",
     "date_end": "2026-05-04",
-    "accent_color": "#00D2BE"
+    "accent_color": "#00E0D1"
   },
   "track_stats": {
     "turns": 19,
@@ -25,33 +25,33 @@
       "driver": "M. Verstappen",
       "year": 2023
     },
-    "character_note": "A high-speed hybrid challenge winding around the Hard Rock Stadium with a distinct street-circuit edge."
+    "character_note": "A high-speed temporary circuit blending stadium parking with public roads, demanding low-drag efficiency and precision."
   },
   "sessions": [
     {
       "name": "FP1",
-      "riyadh": "19:00",
-      "local": "12:00"
+      "riyadh": "16:00",
+      "local": "09:00"
     },
     {
       "name": "Sprint Qualifying",
-      "riyadh": "23:30",
-      "local": "16:30"
+      "riyadh": "20:30",
+      "local": "13:30"
     },
     {
       "name": "Sprint",
-      "riyadh": "19:00",
-      "local": "12:00"
+      "riyadh": "16:00",
+      "local": "09:00"
     },
     {
       "name": "Qualifying",
-      "riyadh": "23:00",
-      "local": "16:00"
+      "riyadh": "20:00",
+      "local": "13:00"
     },
     {
       "name": "Race",
-      "riyadh": "20:00",
-      "local": "13:00",
+      "riyadh": "17:00",
+      "local": "10:00",
       "is_main": true
     }
   ],
@@ -176,22 +176,22 @@
   "storylines": [
     {
       "tag": "CHAMPIONSHIP",
-      "headline": "Antonelli leads the standings as Mercedes dominates early 2026 era",
-      "blurb": "Teenage sensation Kimi Antonelli arrives in Miami as the championship leader following a historic victory in Japan, heading a resurgent Mercedes squad."
+      "headline": "Rookie Sensation Antonelli Leads Title Race After Florida Triumph",
+      "blurb": "Kimi Antonelli has opened a 20-point lead over teammate George Russell following a third victory of the season in Miami."
     },
     {
       "tag": "TECHNICAL",
-      "headline": "New energy management rules debut to address power unit concerns",
-      "blurb": "The FIA has introduced revised deployment regulations for the Miami Sprint weekend to balance performance under the new 2026 power unit framework."
+      "headline": "FIA Monitors Engine Performance Under New ADUO Upgrade System",
+      "blurb": "The first monitoring period for the 2026 Power Unit regulations concludes, determining which manufacturers receive extra development tokens."
     },
     {
       "tag": "DRIVER MARKET",
-      "headline": "Cadillac and Audi entries shake up the 2027 paddock whispers",
-      "blurb": "With Cadillac debuting on the grid and Audi's works project underway, the Miami paddock is buzzing with rumors regarding high-profile driver shifts for next season."
+      "headline": "Rumors Swirl Around Hamilton Retirement and Verstappen Future",
+      "blurb": "Speculation intensifies regarding Lewis Hamilton's potential exit from Ferrari in 2026, while Red Bull targets Piastri as a contingency."
     }
   ],
-  "things_to_watch": "The 2026 Miami Grand Prix features a Sprint format on a resurfaced, low-abrasion track. Watch for thermal degradation in the Florida heat and the impact of the new energy deployment rules on the three long straights, where top speeds are expected to exceed 340kph.",
+  "things_to_watch": "High track temperatures in Miami test Pirelli's softest range (C3-C5), where thermal degradation outweighs mechanical wear. Watch the technical battle as McLaren and Ferrari bring major upgrades to close the gap on the dominant Mercedes W17, while Alpine looks to maintain its surprising midfield lead.",
   "generated_at": "2026-05-20",
-  "published_at": "2026-05-19T14:52:29.960Z",
+  "published_at": "2026-05-20T00:38:59.327Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
