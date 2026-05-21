@@ -15,17 +15,17 @@
     "date_range": "1–4 May 2026",
     "date_start": "2026-05-01",
     "date_end": "2026-05-04",
-    "accent_color": "#00E0D1"
+    "accent_color": "#00D2BE"
   },
   "track_stats": {
     "turns": 19,
     "length_km": 5.412,
     "lap_record": {
       "time": "1:29.708",
-      "driver": "M. Verstappen",
-      "year": 2023
+      "driver": "L. Norris",
+      "year": 2025
     },
-    "character_note": "A high-speed hybrid street circuit snaking around Hard Rock Stadium with three distinct sectors."
+    "character_note": "A high-speed street circuit hybrid demanding a delicate balance between low-drag straights and technical stadium sectors."
   },
   "sessions": [
     {
@@ -175,23 +175,23 @@
   ],
   "storylines": [
     {
+      "tag": "DRIVER MARKET",
+      "headline": "Verstappen Ponders Future as Mercedes and Ford Circles",
+      "blurb": "Speculation intensifies over Max Verstappen’s Red Bull future following performance fluctuations and reported Hypercar talks with Ford. Mercedes remains a primary suitor for 2027."
+    },
+    {
       "tag": "CHAMPIONSHIP",
-      "headline": "Kimi Antonelli arrives in Miami as the surprise championship leader",
-      "blurb": "Following a breakthrough victory in Japan, the Mercedes rookie leads the standings as the sport returns to Florida for the first Sprint weekend of the month."
+      "headline": "Antonelli Leads Mercedes Charge into American Triple-Header",
+      "blurb": "Rookie sensation Kimi Antonelli heads the standings after a breakthrough win in Japan, as Mercedes looks to defend its narrow lead over a surging McLaren."
     },
     {
       "tag": "TECHNICAL",
-      "headline": "New FIA energy management rules debut to solve lift-and-coast issues",
-      "blurb": "Revised power unit deployment limits aim to eliminate awkward qualifying tactics and improve wheel-to-wheel racing following driver complaints from the opening rounds."
-    },
-    {
-      "tag": "DRIVER MARKET",
-      "headline": "Verstappen future remains focal point as Red Bull form fluctuates",
-      "blurb": "Speculation regarding a potential move to Mercedes persists as Red Bull struggles to maintain its technical dominance under the 2026 regulations."
+      "headline": "FIA Debuts New Energy Management Rules for Miami",
+      "blurb": "Updated 2026 regulations regarding power unit deployment and energy recovery take effect this weekend to address early-season drivability concerns."
     }
   ],
-  "things_to_watch": "Watch for the impact of the 13:00 local start time, moved three hours earlier to avoid late-afternoon thunderstorms. The smooth asphalt favors the softest C3-C5 range, but high thermal loads will make managing the C5 Soft a critical challenge during the high-speed Sprint dash.",
-  "generated_at": "2026-05-20",
-  "published_at": "2026-05-20T04:24:15.076Z",
+  "things_to_watch": "Watch the evolution of the smooth Miami asphalt, which favors the softest C5 compounds but remains prone to thermal degradation. With a revised Sunday start time due to rain risks and the second Sprint weekend of the year, teams have minimal time to optimize complex 2026 aero packages.",
+  "generated_at": "2026-05-21",
+  "published_at": "2026-05-21T12:47:48.420Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
