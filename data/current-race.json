@@ -15,7 +15,7 @@
     "date_range": "22–24 May 2026",
     "date_start": "2026-05-22",
     "date_end": "2026-05-24",
-    "accent_color": "#FF0000"
+    "accent_color": "#ED1C24"
   },
   "track_stats": {
     "turns": 14,
@@ -25,7 +25,7 @@
       "driver": "V. Bottas",
       "year": 2019
     },
-    "character_note": "A high-speed street circuit defined by heavy braking zones and the unforgiving Wall of Champions."
+    "character_note": "A high-speed, low-downforce circuit famous for its punishing chicanes and the legendary Wall of Champions."
   },
   "sessions": [
     {
@@ -176,22 +176,22 @@
   "storylines": [
     {
       "tag": "CHAMPIONSHIP",
-      "headline": "Antonelli leads championship charge as Mercedes dominates early 2026 season",
-      "blurb": "Rookie sensation Kimi Antonelli holds a 20-point lead over teammate George Russell heading into Montreal. Mercedes looks to maintain its technical advantage under the new regulations as the field begins to close up."
-    },
-    {
-      "tag": "DRIVER MARKET",
-      "headline": "Verstappen future remains uncertain as Red Bull struggles for performance",
-      "blurb": "Speculation intensifies regarding Max Verstappen's break clauses after Red Bull's midfield start to the year. Rumors link the Dutchman to Mercedes, potentially triggering a massive reshuffle across the grid."
+      "headline": "Antonelli leads Russell as Mercedes intra-team rivalry intensifies",
+      "blurb": "Kimi Antonelli holds a 20-point lead over teammate George Russell following a string of dominant victories. Mercedes brings a significant upgrade package to Montreal to defend against a surging McLaren."
     },
     {
       "tag": "TECHNICAL",
-      "headline": "Montreal hosts first ever Sprint weekend amid energy management concerns",
-      "blurb": "Teams face the challenge of a single practice session to master the 2026 battery deployment rules. The stop-start nature of Montreal will test the efficiency of the new power units under heavy traction demands."
+      "headline": "McLaren and Honda target energy deployment gains in Montreal",
+      "blurb": "McLaren introduces the second part of its Miami upgrade package while Honda focuses on battery energy management. The stop-start nature of the circuit will test the efficiency of the 2026 power units."
+    },
+    {
+      "tag": "DRIVER MARKET",
+      "headline": "Verstappen future remains uncertain amid Red Bull performance struggles",
+      "blurb": "Speculation persists regarding Max Verstappen's future as Red Bull continues to struggle under the new regulations. Rumors link Oscar Piastri to the team as a potential long-term replacement."
     }
   ],
-  "things_to_watch": "Montreal's smooth, low-abrasion surface and cooler May temperatures will make tire warm-up critical for the Soft compound. Watch for heavy track evolution and the impact of the first Sprint format on strategy, as teams navigate the 70-lap distance with limited long-run data.",
+  "things_to_watch": "Montreal hosts its first-ever Sprint weekend, leaving teams with only one hour of practice to master the 2026 technical regulations on a green track. Watch for heavy brake wear and traction issues at the hairpin, alongside high track evolution on the smooth, low-abrasion surface.",
   "generated_at": "2026-05-21",
-  "published_at": "2026-05-21T13:02:15.237Z",
+  "published_at": "2026-05-21T13:05:49.520Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
