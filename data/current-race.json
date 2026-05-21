@@ -15,7 +15,7 @@
     "date_range": "22–24 May 2026",
     "date_start": "2026-05-22",
     "date_end": "2026-05-24",
-    "accent_color": "#ED1C24"
+    "accent_color": "#FF0000"
   },
   "track_stats": {
     "turns": 14,
@@ -25,7 +25,7 @@
       "driver": "V. Bottas",
       "year": 2019
     },
-    "character_note": "A high-speed adrenaline trap defined by heavy braking and the unforgiving Wall of Champions."
+    "character_note": "A high-speed street circuit defined by heavy braking zones and the unforgiving Wall of Champions."
   },
   "sessions": [
     {
@@ -82,7 +82,7 @@
       "high_c": 19,
       "icon": "cloud",
       "rain_pct": 0,
-      "wind_kmh": 10
+      "wind_kmh": 12
     },
     {
       "day": "SAT",
@@ -176,22 +176,22 @@
   "storylines": [
     {
       "tag": "CHAMPIONSHIP",
-      "headline": "Rookie Kimi Antonelli leads title race heading into Montreal",
-      "blurb": "The Mercedes prodigy holds a 20-point lead over teammate George Russell after securing three consecutive victories. All eyes are on the teen sensation to see if he can master the tricky Wall of Champions."
-    },
-    {
-      "tag": "TECHNICAL",
-      "headline": "Red Bull battles steering gremlins as Verstappen's defense falters",
-      "blurb": "Technical Director Pierre Wache has apologized for persistent steering issues on the RB22 that have left Max Verstappen languishing in the standings. The team fast-tracks fixes to salvage their season on Canada’s long straights."
+      "headline": "Antonelli leads championship charge as Mercedes dominates early 2026 season",
+      "blurb": "Rookie sensation Kimi Antonelli holds a 20-point lead over teammate George Russell heading into Montreal. Mercedes looks to maintain its technical advantage under the new regulations as the field begins to close up."
     },
     {
       "tag": "DRIVER MARKET",
-      "headline": "Verstappen future in doubt as Red Bull eyes Oscar Piastri",
-      "blurb": "Speculation intensifies over Max Verstappen’s potential exit from Red Bull following his dissatisfaction with the 2026 regulations. Paddock rumors suggest McLaren’s Piastri is the top target for the seat."
+      "headline": "Verstappen future remains uncertain as Red Bull struggles for performance",
+      "blurb": "Speculation intensifies regarding Max Verstappen's break clauses after Red Bull's midfield start to the year. Rumors link the Dutchman to Mercedes, potentially triggering a massive reshuffle across the grid."
+    },
+    {
+      "tag": "TECHNICAL",
+      "headline": "Montreal hosts first ever Sprint weekend amid energy management concerns",
+      "blurb": "Teams face the challenge of a single practice session to master the 2026 battery deployment rules. The stop-start nature of Montreal will test the efficiency of the new power units under heavy traction demands."
     }
   ],
-  "things_to_watch": "Montreal hosts its first-ever Sprint weekend under the new 2026 regulations. Watch for ERS 'clipping' on the 1km back straight as batteries hit zero-charge, and track evolution on the smooth, low-abrasion surface which typically punishes those who fail to manage graining early in the weekend.",
+  "things_to_watch": "Montreal's smooth, low-abrasion surface and cooler May temperatures will make tire warm-up critical for the Soft compound. Watch for heavy track evolution and the impact of the first Sprint format on strategy, as teams navigate the 70-lap distance with limited long-run data.",
   "generated_at": "2026-05-21",
-  "published_at": "2026-05-21T12:52:20.075Z",
+  "published_at": "2026-05-21T13:02:15.237Z",
   "sources": "OpenF1 · Pirelli · Open-Meteo"
 }
